@@ -11,7 +11,7 @@ import javax.transaction.Transactional;
 @Transactional
 public interface RestaurantRepository extends CrudRepository<Restaurant,Integer> {
 
-    @Query("select r from Restaurant r where r.name like '%:name%'")
+    @Query("select r from Restaurant r where r.name like  CONCAT(:name,'%')")
     Iterable<Restaurant> getRestaurantLikeName(@Param("name") String name);
 
     @Query("SELECT r from Restaurant r where r.city = :cityId")

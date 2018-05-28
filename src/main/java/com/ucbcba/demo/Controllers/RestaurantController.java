@@ -93,24 +93,31 @@ public class RestaurantController {
         }
         byte[] bytes;
         String fot;
-        List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
-        for(int i=0; i<restaurantIterable.size(); i++){
-            bytes = Base64.encode(restaurantIterable.get(i).getFoto());
-            fot = new String(bytes,"UTF-8");
-            restaurantIterable.get(i).setF(fot);
-        }
 
         City city = cityService.getCity(id);
         List<Restaurant> restaurants = city.getRestaurants();
 
         if(name.equals("")){
 
+            List<Restaurant> restaurantIterable = (List<Restaurant>)restaurantService.listAllRestaurants();
+            for(int i=0; i<restaurantIterable.size(); i++){
+                bytes = Base64.encode(restaurantIterable.get(i).getFoto());
+                fot = new String(bytes,"UTF-8");
+                restaurantIterable.get(i).setF(fot);
+            }
             model.addAttribute("restaurants",restaurants);
             return "searchCity";
+
         }
         else{
             restaurants = (List<Restaurant>)restaurantService.getRestaurantLikeName(name);
+            for(int i=0; i<restaurants.size(); i++){
+                bytes = Base64.encode(restaurants.get(i).getFoto());
+                fot = new String(bytes,"UTF-8");
+                restaurants.get(i).setF(fot);
+            }
         }
+
 
         model.addAttribute("restaurants",restaurants);
         return "search";
